@@ -1,13 +1,72 @@
+/*BASE*/
 *{
-    background-color: black;
+    margin: 0px;
+    margin-top: 1%;
+    padding:0px;
+
+    color: var(--text-color);
 }
 
-h1{
-    color:white
+body{
+    background-color: var(--base-color);
 }
 
-.djcoin{
+/*COLORS*/
+
+:root {
+
+    --base-darker: hsl(from var(--base-color) h s calc(l - 20));
+    --base-dark: hsl(from var(--base-color) h s calc(l - 10));
+    --base-color:hsl(0, 0%, 13%);
+    --base-light: hsl(from var(--base-color) h s calc(l + 10));
+    --base-lighter: hsl(from var(--base-color) h s calc(l + 20));
+
+
+    --accent-darker: hsl(from var(--accent-color) h s calc(l - 20));
+    --accent-dark: hsl(from var(--accent-color) h s calc(l - 10));
+    --accent-color: rgb(98, 0, 234);
+    --accent-light: hsl(from var(--accent-color) h s calc(l + 10));
+    --accent-lighter: hsl(from var(--accent-color) h s calc(l + 20));
+
+
+    --text-color: rgb(255, 255, 255);
+}
+
+/*HEADER*/
+
+.djbank-title h1{
+    color: var(--accent-color);
+}
+
+.djbank-title{
     display: flex;
     align-items: center;
     gap: 10px;
 }
+
+/*MAIN*/
+
+main{
+    margin-top: 5%;
+}
+
+
+.overview{
+    background-color: var(--base-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-left: 2%;
+    margin-right: 2%;
+    padding: 1%;
+}
+
+.balance{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: var(--base-lighter) ;
+}
+

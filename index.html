@@ -11,13 +11,32 @@
 </head>
 <body>
     <header>
-    <div class="djcoin">
-        <img src="/assets/pixil-frame-0 (4).png" alt="">
-        <h1>DJBank</h1>
-    </div>
+        <nav>
+            <div class="djbank-title">
+                <img src="/assets/djcoin-256px.png" alt="">
+                <h1>DJBank</h1>
+            </div>
+        </nav>
     </header>
+    
+    <main>
+        <section class="overview">
+            <div>
+                <h1>Overview</h1>
+                <hr>
+                <h2> <span id="currentUser"></span> </h2>
+                <h2> <span id="currentIban"></span></h2>
+            </div>
+
+            <div class="balance">    
+                <h1> <span id="currentBalance"></span></h1>
+                <img src="assets/djcoin-128px.png" alt="">
+            </div>
+        </section>
+    </main>
 
 
 
+    <script src="script.js"></script>
 </body>
 </html>
