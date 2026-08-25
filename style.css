@@ -1,7 +1,7 @@
 /*BASE*/
 *{
     margin: 0px;
-    margin-top: 1%;
+    margin-top: 0%;
     padding:0px;
 
     color: var(--text-color);
@@ -18,12 +18,33 @@ body{
     background-color: var(--base-color);
 }
 
+button{
+    cursor: pointer;
+}
+
+input{
+    color: var(--text-color-dark);
+}
+
+
+/*Animations*/
+
+@keyframes spinAnimation{
+            from {
+                transform: rotate(0deg);
+            }
+
+            to{
+                transform: rotate(360deg);
+            }
+        }
+
 /*COLORS*/
 
 :root {
 
-    --base-darker: hsl(from var(--base-color) h s calc(l - 20));
-    --base-dark: hsl(from var(--base-color) h s calc(l - 10));
+    --base-darker: hsl(from var(--base-color) h s calc(l - 10));
+    --base-dark: hsl(from var(--base-color) h s calc(l - 5));
     --base-color:hsl(0, 0%, 13%);
     --base-light: hsl(from var(--base-color) h s calc(l + 10));
     --base-lighter: hsl(from var(--base-color) h s calc(l + 20));
@@ -37,9 +58,14 @@ body{
 
 
     --text-color: rgb(255, 255, 255);
+    --text-color-dark: rgb(0, 0, 0);
 }
 
 /*HEADER*/
+
+header{
+    background-color: var(--base-dark);
+}
 
 .djbank-title h1{
     color: var(--accent-color);
@@ -51,6 +77,13 @@ body{
     gap: 10px;
 }
 
+#djIcon:hover{
+    animation-name: spinAnimation;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+
+}
+
 /*MAIN*/
 
 main{
@@ -60,7 +93,6 @@ main{
 /*Overview*/
 
 .overview{
-    background-color: var(--base-light);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -68,6 +100,8 @@ main{
     margin-left: 2%;
     margin-right: 2%;
     padding: 1%;
+
+    background-color: var(--base-light);
 }
 
 .balance{
@@ -85,13 +119,13 @@ main{
     display: flex;
     align-items: center;
     flex-direction: row;
-    gap: 10%;
+    justify-content: space-evenly;
+    margin-top: 1%;
 }
 
 .sendWndw{
     display: none;
 
-    margin-left: 5%;
     height: 100px;
     width: 40%;
 
@@ -107,7 +141,6 @@ main{
 .requestWndw{
     display: none;
 
-    margin-right: 5%;
     height: 100px;
     width: 40%;
 
@@ -124,8 +157,35 @@ main{
 
 footer{
     position: fixed;
+
+    width: 100%;
+    height: 15%;
     
-    margin-top: 45%;
+    margin-top: 65%;
+    padding-top: 1% ;
 
     background-color: var(--base-light);
+}
+
+.openButtons{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    
+
+    height: auto;
+    width: 100%;
+}
+
+.openBtn{
+    height: auto;
+    width: 25%;
+    
+    padding: 20px;
+    
+    border: none;
+    border-radius: 5px;
+    
+    background-color: var(--accent-light);
+    color: var(--text-color);
 }
