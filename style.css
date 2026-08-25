@@ -7,6 +7,13 @@
     color: var(--text-color);
 }
 
+html, body {
+  height: 100%;
+  margin: 0;             
+  display: flex;
+  flex-direction: column; 
+}
+
 body{
     background-color: var(--base-color);
 }
@@ -50,6 +57,7 @@ main{
     margin-top: 5%;
 }
 
+/*Overview*/
 
 .overview{
     background-color: var(--base-light);
@@ -70,3 +78,54 @@ main{
     background-color: var(--base-lighter) ;
 }
 
+
+/*Send/Request Window*/
+
+.sendRequestWndw{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 10%;
+}
+
+.sendWndw{
+    display: none;
+
+    margin-left: 5%;
+    height: 100px;
+    width: 40%;
+
+    background-color: var(--base-light);
+}
+
+.sendInput{
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+}
+
+.requestWndw{
+    display: none;
+
+    margin-right: 5%;
+    height: 100px;
+    width: 40%;
+
+    background-color: var(--base-light);
+}
+
+.requestInput{
+    display: flex;
+    align-items: left;
+    flex-direction: column;
+}
+
+/*FOOTER*/
+
+footer{
+    position: fixed;
+    
+    margin-top: 45%;
+
+    background-color: var(--base-light);
+}
