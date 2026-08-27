@@ -1,4 +1,4 @@
-/*BASE*/
+/*---BASE---*/
 *{
     margin: 0px;
     margin-top: 0%;
@@ -23,6 +23,7 @@ button{
 }
 
 input{
+    cursor: pointer;
     color: var(--text-color-dark);
 }
 
@@ -39,7 +40,9 @@ input{
             }
         }
 
-/*COLORS*/
+    
+    
+/*---COLORS---*/
 
 :root {
 
@@ -61,7 +64,8 @@ input{
     --text-color-dark: rgb(0, 0, 0);
 }
 
-/*HEADER*/
+
+/*---HEADER---*/
 
 header{
     background-color: var(--base-dark);
@@ -84,11 +88,13 @@ header{
 
 }
 
-/*MAIN*/
+
+/*---MAIN---*/
 
 main{
     margin-top: 5%;
 }
+
 
 /*Overview*/
 
@@ -125,8 +131,9 @@ main{
 
 .sendWndw{
     display: none;
+    padding: 1%;
 
-    height: 100px;
+    height: 30%;
     width: 40%;
 
     background-color: var(--base-light);
@@ -136,12 +143,14 @@ main{
     display: flex;
     align-items: left;
     flex-direction: column;
+    padding: 1%;
 }
 
 .requestWndw{
     display: none;
+    padding: 1%;
 
-    height: 100px;
+    height: 30%;
     width: 40%;
 
     background-color: var(--base-light);
@@ -151,9 +160,22 @@ main{
     display: flex;
     align-items: left;
     flex-direction: column;
+    padding: 1%;
 }
 
-/*FOOTER*/
+.sendRequestWndw input{
+    background-color: var(--base-light);
+    color: var(--text-color);
+    border: none;
+}
+
+.sendRequestWndw input:hover{
+    transform: scale(1.1, 1.5);
+    filter: contrast(150%);
+}
+
+
+/*---FOOTER---*/
 
 footer{
     position: fixed;
@@ -171,7 +193,6 @@ footer{
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    
 
     height: auto;
     width: 100%;
@@ -179,7 +200,7 @@ footer{
 
 .openBtn{
     height: auto;
-    width: 25%;
+    width: 45%;
     
     padding: 20px;
     
@@ -188,4 +209,8 @@ footer{
     
     background-color: var(--accent-light);
     color: var(--text-color);
+}
+
+.openBtn:active{
+    transform: scale(0.9);
 }
