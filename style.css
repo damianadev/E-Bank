@@ -81,7 +81,7 @@ header{
     gap: 10px;
 }
 
-#djIcon:hover{
+.djIcon:hover{
     animation-name: spinAnimation;
     animation-duration: 2s;
     animation-iteration-count: infinite;
@@ -116,6 +116,18 @@ main{
     flex-direction: column;
 
     background-color: var(--base-lighter) ;
+}
+
+
+/*Clicker*/
+
+#clickBtn{
+    border: none;
+    background: none;
+}
+
+#clickBtn:active{
+    transform: scale(0.9);
 }
 
 

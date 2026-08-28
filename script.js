@@ -9,9 +9,18 @@ let fourDigitIban = Math.floor(Math.random() * 9000) + 1000;
 const fullIban = ("DJ" + twoDigitIban + " " + fourDigitIban );
 const currentIban = document.querySelector('#currentIban').textContent = fullIban;
 
+
 //get Balance
-let balance = 100.00;
-const currentBalance = document.querySelector('#currentBalance').textContent = balance;
+//Clicker
+let balance = 0
+ 
+const clickBtn = document.querySelector('#clickBtn');
+const currentBalance = document.querySelector('#currentBalance');
+
+clickBtn.addEventListener('click', function() {
+    balance = balance + 1,
+    currentBalance.textContent = balance
+});
 
 
 //Send money
@@ -30,6 +39,7 @@ openSendWndw.addEventListener("click", function () {
         display = 1;
     }
 })
+
 
 //Request money 
 
