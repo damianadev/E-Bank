@@ -79,6 +79,8 @@ header{
     display: flex;
     align-items: center;
     gap: 10px;
+
+    padding: 1%;
 }
 
 .djIcon:hover{
@@ -105,7 +107,9 @@ main{
 
     margin-left: 2%;
     margin-right: 2%;
-    padding: 1%;
+    padding: 2%;
+
+    border-radius: 5px;
 
     background-color: var(--base-light);
 }
@@ -114,6 +118,11 @@ main{
     display: flex;
     align-items: center;
     flex-direction: column;
+
+    padding: 10px;
+
+    border: var(--accent-dark) solid 1px;
+    border-radius: 5px;
 
     background-color: var(--base-lighter) ;
 }
@@ -148,6 +157,8 @@ main{
     height: 30%;
     width: 40%;
 
+    border-radius: 5px;
+
     background-color: var(--base-light);
 }
 
@@ -164,6 +175,8 @@ main{
 
     height: 30%;
     width: 40%;
+
+    border-radius: 5px;
 
     background-color: var(--base-light);
 }
@@ -219,7 +232,7 @@ footer{
     border: none;
     border-radius: 5px;
     
-    background-color: var(--accent-light);
+    background-color: var(--accent-dark);
     color: var(--text-color);
 }
 
