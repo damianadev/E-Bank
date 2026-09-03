@@ -1,6 +1,21 @@
-//get Username
-const username = prompt("To login, you need to type your username!");
-const currentUser= document.querySelector('#currentUser').textContent = username
+//get/save Username
+const userInput = document.querySelector('#userInput');
+const saveUserBtn = document.querySelector('#saveUserBtn');
+const userOutput = document.querySelector('#userOutput');
+const key = "user";
+
+function saveUser(){
+    const currentUser = userInput.value.toUpperCase();
+    if (!currentUser) return;
+
+    localStorage.setItem(key, currentUser);
+    userOutput.textContent = localStorage.getItem(key);
+
+    console.log(currentUser);
+};
+
+saveUserBtn.addEventListener('click', saveUser);
+userOutput.textContent = localStorage.getItem(key);
 
 
 //get IBAN
@@ -22,13 +37,29 @@ clickBtn.addEventListener('click', function() {
     currentBalance.textContent = balance
 });
 
+//---OPEN---
+let display = 0;
 
-//Send money
 
+//Open login window
+const openLoginBtn = document.querySelector('#openLoginBtn');
+const loginWndw = document.querySelector('.loginHide');
+
+openLoginBtn.addEventListener("click", function () {
+    if(display === 1){
+        loginWndw.style.display = "block" 
+        display = 0;
+    } else {
+        loginWndw.style.display = "none";
+        display = 1;
+    }
+})
+
+
+//Open send money window
 const openSendWndw = document.querySelector('#openSendWndw');
 const sendWndw = document.querySelector('.sendWndw');
 
-let display = 0;
 
 openSendWndw.addEventListener("click", function () {
     if(display === 1){
@@ -41,8 +72,7 @@ openSendWndw.addEventListener("click", function () {
 })
 
 
-//Request money 
-
+//Open request money window 
 const openRequestWndw = document.querySelector('#openRequestWndw');
 const requestWndw = document.querySelector('.requestWndw');
 

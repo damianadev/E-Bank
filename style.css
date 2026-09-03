@@ -22,6 +22,10 @@ button{
     cursor: pointer;
 }
 
+button:hover{
+    transform: scale(1.1);
+}
+
 input{
     cursor: pointer;
     color: var(--text-color-dark);
@@ -71,6 +75,16 @@ header{
     background-color: var(--base-dark);
 }
 
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+
+    margin-left: 1%;
+    margin-right: 3%;
+}
+
 .djbank-title h1{
     color: var(--accent-color);
 }
@@ -88,6 +102,22 @@ header{
     animation-duration: 2s;
     animation-iteration-count: infinite;
 
+}
+
+#openLoginBtn{
+    padding: 5px;
+
+    font-weight: bold;
+
+    border: var(--accent-color) solid 3px;
+    border-radius: 5px;
+
+    color: var(--accent-color);
+    background: none;
+}
+
+#openLoginBtn:active{
+    transform: scale(0.9);
 }
 
 
@@ -140,6 +170,66 @@ main{
 }
 
 
+/*Login Window*/
+
+.loginWndw{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 2%;
+}
+
+.loginHide{
+    display: none;
+
+    padding: 1%;
+    margin-left: 2%;
+    margin-right: 2%;
+
+    height: 30%;
+    width: 87%;
+    
+    border-radius: 5px;
+
+    background-color: var(--base-light);
+}
+
+.login{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.loginWndw input{
+    background-color: var(--base-light);
+    color: var(--text-color);
+    border: none;
+}
+
+.loginWndw input:hover{
+    transform: scale(1.1, 1.5);
+    filter: contrast(150%);
+}
+
+#saveUserBtn{
+    height: auto;
+    width: 20%;
+
+    padding: 20px;
+    
+    border: none;
+    border-radius: 5px;
+    
+    background-color: var(--accent-dark);
+    color: var(--text-color);
+}
+
+#saveUserBtn:active{
+    transform: scale(0.9);
+}
+
+
 /*Send/Request Window*/
 
 .sendRequestWndw{
@@ -147,7 +237,7 @@ main{
     align-items: center;
     flex-direction: row;
     justify-content: space-evenly;
-    margin-top: 1%;
+    margin-top: 2%;
 }
 
 .sendWndw{

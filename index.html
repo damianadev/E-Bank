@@ -16,6 +16,10 @@
                 <img src="/assets/djcoin-256px.png" alt="" class="djIcon">
                 <h1>DJBank</h1>
             </div>
+
+            <div class="icons">
+                <button id="openLoginBtn">Login/Switch user</button>
+            </div>
         </nav>
     </header>
     
@@ -24,7 +28,7 @@
             <div>
                 <h1>Overview</h1>
                 <hr>
-                <h2> <span id="currentUser"></span> </h2>
+                <h2> <span id="userOutput"></span> </h2>
                 <h2> <span id="currentIban"></span></h2>
             </div>
 
@@ -33,6 +37,19 @@
                 <button id="clickBtn">
                     <img src="assets/djcoin-128px.png" alt="" class="djIcon">
                 </button>
+            </div>
+        </section>
+
+        <section class="loginWndw">
+            <div class="loginHide">
+                <div class="login">
+
+                <h1>Login/Switch user</h1>
+
+                <input type="text" placeholder="Enter your username.." id="userInput">
+                <button id="saveUserBtn">SAVE</button>
+            
+                </div>
             </div>
         </section>
 
@@ -63,6 +80,7 @@
                 </div>
             </div>
         </section>
+
     </main>
 
     <footer>
