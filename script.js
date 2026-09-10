@@ -1,4 +1,4 @@
-// get & save Username
+// get & save & change Username
 const userInput = document.querySelector('#userInput');
 const saveUserBtn = document.querySelector('#saveUserBtn');
 const userOutput = document.querySelector('#userOutput');
@@ -13,54 +13,69 @@ function getUser(){
     localStorage.setItem(key, currentUser);
     userOutput.textContent = localStorage.getItem(key);
 
-    console.log("Current user is - " + currentUser);
+    console.log("CURRENT USER IS - " + localStorage.getItem(key));
 };
 
 saveUserBtn.addEventListener('click', getUser);
 userOutput.textContent = localStorage.getItem(key);
 
 
-// get & save IBAN
+// get & save & change IBAN
+const currentIban = document.querySelector('#currentIban');
+
+const key_user_iban = "iban_" + localStorage.getItem(key);
+
 function getIban() {
-    let twoDigitIban = Math.floor(Math.random() * 90) + 10;
-    let fourDigitIban = Math.floor(Math.random() * 9000) + 1000;
+    const key_user_iban = "iban_" + localStorage.getItem(key);
 
-    const fullIban = ("DJ" + twoDigitIban + " " + fourDigitIban );
-    const currentIban = document.querySelector('#currentIban');
+    if(localStorage.getItem(key_user_iban) === null){
+        
+        let twoDigitIban = Math.floor(Math.random() * 90) + 10;
+        let fourDigitIban = Math.floor(Math.random() * 9000) + 1000;
+        const fullIban = ("DJ" + twoDigitIban + " " + fourDigitIban );
+        localStorage.setItem(key_user_iban, fullIban);
+    }
 
-    localStorage.fullIban = fullIban;
+    currentIban.textContent = localStorage.getItem(key_user_iban);
 
-    currentIban.textContent = localStorage.fullIban;
-
-    console.log("User IBAN - " + currentIban.textContent);
+    console.log("USER " + localStorage.getItem(key) + " IBAN - " + localStorage.getItem(key_user_iban));
 };
 
 saveUserBtn.addEventListener('click', getIban);
-currentIban.textContent = localStorage.fullIban;
+currentIban.textContent = localStorage.getItem(key_user_iban);
 
 
-//Balance clicker
-let balance = 0
- 
+//get & change balance 
 const clickBtn = document.querySelector('#clickBtn');
 const currentBalance = document.querySelector('#currentBalance');
 
-clickBtn.addEventListener('click', function() {
+const key_user_balance = "balance_" + localStorage.getItem(key);
 
-    if ( localStorage.balance >= 0 ) {
-        localStorage.balance = Number(localStorage.balance) + 1
+function getBalance() {
+    const key_user_balance = "balance_" + localStorage.getItem(key);
+
+    if ( localStorage.getItem(key_user_balance) === null ) {
+        localStorage.setItem(key_user_balance, 1) 
     } else {
-        localStorage.balance = 1 
+        localStorage.setItem(key_user_balance, Number(localStorage.getItem(key_user_balance)) + 1)
     }
-    currentBalance.textContent = localStorage.balance;
 
-    console.log("User balance - " + localStorage.balance);
+    currentBalance.textContent = localStorage.getItem(key_user_balance);
+
+    console.log("USER " + localStorage.getItem(key) + " BALANCE - " + localStorage.getItem(key_user_balance));
+};
+
+clickBtn.addEventListener('click', getBalance);
+
+saveUserBtn.addEventListener('click', function(){
+    const key_user_balance = "balance_" + localStorage.getItem(key);
+
+    currentBalance.textContent = localStorage.getItem(key_user_balance);
+
+    console.log("USER " + localStorage.getItem(key) + " BALANCE - " + localStorage.getItem(key_user_balance));
 });
 
-currentBalance.textContent = localStorage.balance;
-
-
-//  !!!Add switch user system!!!
+currentBalance.textContent = localStorage.getItem(key_user_balance);
 
 
 //---OPEN---
@@ -115,7 +130,7 @@ openRequestWndw.addEventListener("click", function() {
 //....
 
 
-console.log("Current user is - " + userOutput.textContent);
-console.log("User IBAN - " + currentIban.textContent);
-console.log("User balance - " + currentBalance.textContent);
+console.log("CURRENT USER IS - " + localStorage.getItem(key));
+console.log("USER " + localStorage.getItem(key) + " IBAN - " + localStorage.getItem(key_user_iban));
+console.log("USER " + localStorage.getItem(key) + " BALANCE - " + localStorage.getItem(key_user_balance));
 console.log("<----- NEW INFO ----->");
