@@ -86,7 +86,7 @@ let display = 0;
 const openLoginBtn = document.querySelector('#openLoginBtn');
 const loginWndw = document.querySelector('.loginHide');
 
-openLoginBtn.addEventListener("click", function () {
+function openLogin() {
     if(display === 1){
         loginWndw.style.display = "block" 
         display = 0;
@@ -94,8 +94,10 @@ openLoginBtn.addEventListener("click", function () {
         loginWndw.style.display = "none";
         display = 1;
     }
-})
+}
 
+openLoginBtn.addEventListener("click", openLogin);
+saveUserBtn.addEventListener('click', openLogin);
 
 //Open send money window
 const openSendWndw = document.querySelector('#openSendWndw');
@@ -126,6 +128,47 @@ openRequestWndw.addEventListener("click", function() {
         display = 1;
     }
 })
+
+//<--- SEND MONEY --->
+const sendUserInput = document.querySelector('#sendUserInput');
+const sendIbanInput = document.querySelector('#sendIbanInput');
+const sendAmountInput = document.querySelector('#sendAmountInput');
+
+function sendMoney(){
+    if(!sendUserInput.value) return;
+
+    const key_getter_iban = localStorage.getItem("iban_" + sendUserInput.value.toUpperCase());
+    
+    if(key_getter_iban === null){
+        alert("No such a user");
+        return;
+    }
+
+    const key_user_balance = "balance_" + localStorage.getItem(key);
+    const key_getter_balance = "balance_" + sendUserInput.value.toUpperCase();
+
+    function transferMoney(){
+        if(Number(sendAmountInput.value) <= 0 )
+            return;
+
+        if(Number(sendAmountInput.value) > Number(localStorage.getItem(key_user_balance)))
+            return;
+
+    localStorage.setItem(key_getter_balance, Number(localStorage.getItem(key_getter_balance)) + Number(sendAmountInput.value));
+    localStorage.setItem(key_user_balance, Number(localStorage.getItem(key_user_balance)) - Number(sendAmountInput.value));
+    } 
+    transferMoney();
+
+    currentBalance.textContent = localStorage.getItem(key_user_balance);
+
+    console.log("USER " + localStorage.getItem(key) + " SENT USER " + sendUserInput.value.toUpperCase() + " " + Number(sendAmountInput.value) + " DJCOINS");
+}
+
+openSendWndw.addEventListener('click', sendMoney);
+currentBalance.textContent = localStorage.getItem(key_user_balance);
+
+
+//!!! ADD REQUEST FUNCTION !!!
 
 
 //....
