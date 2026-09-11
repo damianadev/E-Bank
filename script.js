@@ -65,16 +65,16 @@ function getBalance() {
     console.log("USER " + localStorage.getItem(key) + " BALANCE - " + localStorage.getItem(key_user_balance));
 };
 
-clickBtn.addEventListener('click', getBalance);
-
-saveUserBtn.addEventListener('click', function(){
+function saveBalance(){
     const key_user_balance = "balance_" + localStorage.getItem(key);
 
     currentBalance.textContent = localStorage.getItem(key_user_balance);
 
     console.log("USER " + localStorage.getItem(key) + " BALANCE - " + localStorage.getItem(key_user_balance));
-});
+};
 
+clickBtn.addEventListener('click', getBalance);
+saveUserBtn.addEventListener('click', saveBalance);
 currentBalance.textContent = localStorage.getItem(key_user_balance);
 
 
@@ -126,6 +126,7 @@ openRequestWndw.addEventListener("click", function() {
         display = 1;
     }
 })
+
 
 //....
 
