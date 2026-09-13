@@ -166,7 +166,7 @@ openSendWndw.addEventListener('click', sendMoney);
 currentBalance.textContent = localStorage.getItem(key_user_balance);                                                                    //display updated balance so it stays visible after page is reloaded
 
 
-//!!! ADD REQUEST FUNCTION !!!
+//request money
 const reqUserInput = document.querySelector('#reqUserInput');
 const reqIbanInput = document.querySelector('#reqIbanInput');
 const reqAmountInput = document.querySelector('#reqAmountInput');
@@ -178,14 +178,14 @@ const key_req_sender = "req_" + localStorage.getItem(key);
 function reqMoney(){
     if(!reqUserInput.value) return;
 
-    const key_req_getter_iban = localStorage.getItem("iban_" + reqUserInput.value.toUpperCase());                                          //define key for storing beneficiary iban, iban_ + beneficiary iban example: iban_USERNAME
+    const key_req_getter_iban = localStorage.getItem("iban_" + reqUserInput.value.toUpperCase());
     
-    if(key_req_getter_iban === null){                                                                                                       //check if beneficiary iban exist, if no: alert
+    if(key_req_getter_iban === null){
         alert("No such a user");
         return;
     }
 
-    const key_user_balance = "balance_" + localStorage.getItem(key);                                                                    //update current users balance key 
+    const key_user_balance = "balance_" + localStorage.getItem(key);
     const key_req_getter_balance = "balance_" + reqUserInput.value.toUpperCase();
 
     const request = {
