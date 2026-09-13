@@ -167,7 +167,70 @@ currentBalance.textContent = localStorage.getItem(key_user_balance);            
 
 
 //!!! ADD REQUEST FUNCTION !!!
+const reqUserInput = document.querySelector('#reqUserInput');
+const reqIbanInput = document.querySelector('#reqIbanInput');
+const reqAmountInput = document.querySelector('#reqAmountInput');
 
+const userRequests = document.querySelector('#requests');
+const key_req_getter = "req_" + reqUserInput.value.toUpperCase();
+const key_req_sender = "req_" + localStorage.getItem(key);
+
+function reqMoney(){
+    if(!reqUserInput.value) return;
+
+    const key_req_getter_iban = localStorage.getItem("iban_" + reqUserInput.value.toUpperCase());                                          //define key for storing beneficiary iban, iban_ + beneficiary iban example: iban_USERNAME
+    
+    if(key_req_getter_iban === null){                                                                                                       //check if beneficiary iban exist, if no: alert
+        alert("No such a user");
+        return;
+    }
+
+    const key_user_balance = "balance_" + localStorage.getItem(key);                                                                    //update current users balance key 
+    const key_req_getter_balance = "balance_" + reqUserInput.value.toUpperCase();
+
+    const request = {
+    sender: localStorage.getItem(key),
+    getter: reqUserInput.value.toUpperCase(),
+    amount: Number(reqAmountInput.value),
+    status: "pending"
+    };
+
+    const requestsSender = JSON.parse(localStorage.getItem(key_req_sender)) || [];
+    requestsSender.push(request);
+    localStorage.setItem(key_req_sender, JSON.stringify(requestsSender));
+
+    const requestsGetter = JSON.parse(localStorage.getItem(key_req_getter)) || [];
+    requestsGetter.push(request);
+    localStorage.setItem(key_req_getter, JSON.stringify(requestsGetter));
+ 
+
+    requestsSender.forEach(request=> {
+        const reqDiv = document.createElement('div');
+        reqDiv.className = "reqDiv";
+
+        const reqStatusSpan = document.createElement('span');
+        reqStatusSpan.className = "reqStatusSpan";
+        reqStatusSpan.textContent =  request.status;
+
+        const reqDeclineBtn = document.createElement('button');
+        reqDeclineBtn.className = "reqDeclineBtn";
+        reqDeclineBtn.textContent = "Decline"
+
+        const reqAcceptBtn = document.createElement('button');
+        reqAcceptBtn.className = "reqAcceptBtn";
+        reqAcceptBtn.textContent = "Accept"
+        
+        reqDiv.appendChild(reqStatusSpan);
+        reqDiv.appendChild(reqDeclineBtn);
+        reqDiv.appendChild(reqAcceptBtn);
+        
+        userRequests.appendChild(reqDiv);
+    });
+
+}
+
+
+openRequestWndw.addEventListener('click', reqMoney);
 
 //....
 
