@@ -13,7 +13,9 @@ function getUser(){
     localStorage.setItem(key, currentUser);                                                                                             //store username by key in localStorage
     userOutput.textContent = localStorage.getItem(key);                                                                                 //display the username using the value stored in localStorage
 
-    console.log("CURRENT USER IS - " + localStorage.getItem(key));                                                                      //display username in console
+    console.log("CURRENT USER IS - " + localStorage.getItem(key));                                                                     //display username in console
+
+    userInput.value ="";
 };
 
 saveUserBtn.addEventListener('click', getUser);                                                                                         //add function getUser() to button
@@ -160,6 +162,11 @@ function sendMoney(){
     currentBalance.textContent = localStorage.getItem(key_user_balance);                                                                //display updated balance
 
     console.log("USER " + localStorage.getItem(key) + " SENT USER " + sendUserInput.value.toUpperCase() + " " + Number(sendAmountInput.value) + " DJCOINS");
+
+    sendUserInput.value = "";
+    sendIbanInput.value = "";
+    sendAmountInput.value = "";
+
 }
 
 openSendWndw.addEventListener('click', sendMoney);
@@ -178,6 +185,8 @@ const key_req_sender = "req_" + localStorage.getItem(key);
 function reqMoney(){
     if(!reqUserInput.value) return;
 
+    const key_req_getter = "req_" + reqUserInput.value.toUpperCase();
+
     const key_req_getter_iban = localStorage.getItem("iban_" + reqUserInput.value.toUpperCase());
     
     if(key_req_getter_iban === null){
@@ -185,14 +194,11 @@ function reqMoney(){
         return;
     }
 
-    const key_user_balance = "balance_" + localStorage.getItem(key);
-    const key_req_getter_balance = "balance_" + reqUserInput.value.toUpperCase();
-
     const request = {
-    sender: localStorage.getItem(key),
-    getter: reqUserInput.value.toUpperCase(),
-    amount: Number(reqAmountInput.value),
-    status: "pending"
+        sender: localStorage.getItem(key),
+        getter: reqUserInput.value.toUpperCase(),
+        amount: Number(reqAmountInput.value),
+        status: "pending"
     };
 
     const requestsSender = JSON.parse(localStorage.getItem(key_req_sender)) || [];
@@ -202,35 +208,184 @@ function reqMoney(){
     const requestsGetter = JSON.parse(localStorage.getItem(key_req_getter)) || [];
     requestsGetter.push(request);
     localStorage.setItem(key_req_getter, JSON.stringify(requestsGetter));
- 
 
-    requestsSender.forEach(request=> {
+    reqUserInput.value = "";
+    reqIbanInput.value = "";
+    reqAmountInput.value = "";
+
+    showReq();
+}
+
+function showReq() {
+
+    userRequests.innerHTML = "";
+
+    const key_current_user = "req_" + localStorage.getItem(key);
+
+    const requests = JSON.parse(localStorage.getItem(key_current_user)) || [];
+
+    requests.forEach(request => {
+
         const reqDiv = document.createElement('div');
         reqDiv.className = "reqDiv";
 
+        const reqMessage = document.createElement('p');
+        reqMessage.className = "reqMessage";
+        reqMessage.textContent = request.sender + " ASKED " + request.getter ; 
+        
+        const reqAmountSpan = document.createElement('span');
+        reqAmountSpan.className = "reqAmountSpan";
+        reqAmountSpan.textContent = request.amount + "DJCOINS";
+
         const reqStatusSpan = document.createElement('span');
         reqStatusSpan.className = "reqStatusSpan";
-        reqStatusSpan.textContent =  request.status;
+        reqStatusSpan.textContent = request.status;
 
-        const reqDeclineBtn = document.createElement('button');
-        reqDeclineBtn.className = "reqDeclineBtn";
-        reqDeclineBtn.textContent = "Decline"
-
-        const reqAcceptBtn = document.createElement('button');
-        reqAcceptBtn.className = "reqAcceptBtn";
-        reqAcceptBtn.textContent = "Accept"
-        
+        reqDiv.appendChild(reqMessage);
+        reqDiv.appendChild(reqAmountSpan);
         reqDiv.appendChild(reqStatusSpan);
-        reqDiv.appendChild(reqDeclineBtn);
-        reqDiv.appendChild(reqAcceptBtn);
-        
+
+        if(localStorage.getItem(key) === request.getter){
+
+            const reqDeclineBtn = document.createElement('button');
+            reqDeclineBtn.className = "reqDeclineBtn";
+            reqDeclineBtn.textContent = "Decline";
+
+            const reqAcceptBtn = document.createElement('button');
+            reqAcceptBtn.className = "reqAcceptBtn";
+            reqAcceptBtn.textContent = "Accept";
+
+            reqDeclineBtn.addEventListener('click', function(){ 
+            declineRequest(request); 
+            });
+
+            reqAcceptBtn.addEventListener('click', function(){
+                transferMoney(request);
+            });
+
+            reqDiv.appendChild(reqDeclineBtn);
+            reqDiv.appendChild(reqAcceptBtn);
+        }
+
         userRequests.appendChild(reqDiv);
     });
-
 }
 
+function transferMoney(request){ 
 
+    const key_user_balance = "balance_" + localStorage.getItem(key); 
+    const key_req_getter_balance = "balance_" + request.sender; 
+
+    const amount = Number(request.amount); 
+
+    if(amount <= 0) 
+        return; 
+
+    if(amount > Number(localStorage.getItem(key_user_balance))) 
+        return; 
+
+    const getterBalance = Number(localStorage.getItem(key_req_getter_balance)) || 0; 
+
+    localStorage.setItem(
+        key_req_getter_balance,
+        getterBalance + amount
+    ); 
+
+    localStorage.setItem(
+        key_user_balance,
+        Number(localStorage.getItem(key_user_balance)) - amount
+    ); 
+
+    request.status = "accepted"; 
+
+    const currentUserRequests = JSON.parse(
+        localStorage.getItem("req_" + localStorage.getItem(key))
+    ) || []; 
+
+    const senderRequests = JSON.parse(
+        localStorage.getItem("req_" + request.sender)
+    ) || []; 
+
+    currentUserRequests.forEach(item => { 
+        if(
+            item.sender === request.sender &&
+            item.getter === request.getter &&
+            item.amount === request.amount &&
+            item.status === "pending"
+        ){
+            item.status = "accepted"; 
+        } 
+    }); 
+
+    senderRequests.forEach(item => { 
+        if(
+            item.sender === request.sender &&
+            item.getter === request.getter &&
+            item.amount === request.amount &&
+            item.status === "pending"
+        ){
+            item.status = "accepted"; 
+        } 
+    }); 
+
+    localStorage.setItem(
+        "req_" + localStorage.getItem(key),
+        JSON.stringify(currentUserRequests)
+    ); 
+
+    localStorage.setItem(
+        "req_" + request.sender,
+        JSON.stringify(senderRequests)
+    ); 
+
+    showReq(); 
+} 
+
+
+function declineRequest(request){ 
+
+    const currentUserRequests = JSON.parse(
+        localStorage.getItem("req_" + localStorage.getItem(key))
+    ) || []; 
+
+    const senderRequests = JSON.parse(
+        localStorage.getItem("req_" + request.sender)
+    ) || []; 
+
+    const newCurrentUserRequests = currentUserRequests.filter(item => {
+        return !(
+            item.sender === request.sender &&
+            item.getter === request.getter &&
+            item.amount === request.amount
+        );
+    }); 
+
+    const newSenderRequests = senderRequests.filter(item => {
+        return !(
+            item.sender === request.sender &&
+            item.getter === request.getter &&
+            item.amount === request.amount
+        );
+    }); 
+
+    localStorage.setItem(
+        "req_" + localStorage.getItem(key),
+        JSON.stringify(newCurrentUserRequests)
+    ); 
+
+    localStorage.setItem(
+        "req_" + request.sender,
+        JSON.stringify(newSenderRequests)
+    ); 
+
+    showReq(); 
+}
 openRequestWndw.addEventListener('click', reqMoney);
+
+showReq();
+
+saveUserBtn.addEventListener('click', showReq);
+
 
 //....
 
