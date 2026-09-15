@@ -458,7 +458,7 @@ showReq();
  
 saveUserBtn.addEventListener('click', showReq); 
  
-currentBalance.textContent = localStorage.getItem(key_user_balance);Storage.getItem(key_user_balance);
+currentBalance.textContent = localStorage.getItem(key_user_balance);
 
 //....
 
