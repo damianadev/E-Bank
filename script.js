@@ -468,3 +468,4 @@ console.log("CURRENT USER IS - " + localStorage.getItem(key));
 console.log("USER " + localStorage.getItem(key) + " IBAN - " + localStorage.getItem(key_user_iban));
 console.log("USER " + localStorage.getItem(key) + " BALANCE - " + localStorage.getItem(key_user_balance));
 console.log("<----- NEW INFO ----->");
+

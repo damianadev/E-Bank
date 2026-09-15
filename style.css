@@ -292,14 +292,15 @@ main{
 
 /*---FOOTER---*/
 
-footer{
+footer {
     position: fixed;
+    bottom: 0;
+    left: 0;
 
     width: 100%;
     height: 15%;
-    
-    margin-top: 65%;
-    padding-top: 1% ;
+
+    padding-top: 1%;
 
     background-color: var(--base-light);
 }
