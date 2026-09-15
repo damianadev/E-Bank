@@ -330,3 +330,38 @@ footer {
 .openBtn:active{
     transform: scale(0.9);
 }
+
+
+/*Request*/
+
+.reqDiv{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.reqDeclineBtn{
+    padding: 5px;
+    background-color: red;
+
+    border: none;
+    border-radius: 5px;
+}
+
+.reqAcceptBtn{
+    padding: 5px;
+    background-color: green;
+
+    border: none;
+    border-radius: 5px;
+}
+
+.reqRemoveBtn{
+    padding: 5px;
+    background-color: white;
+    color: red;
+
+    border: 1px solid red;
+    border-radius: 5px;
+}

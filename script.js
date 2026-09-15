@@ -231,7 +231,7 @@ function showReq() {
  
         const reqMessage = document.createElement('p'); 
         reqMessage.className = "reqMessage"; 
-        reqMessage.textContent = request.sender + " ASKED " + request.getter;  
+        reqMessage.textContent = request.sender + "  ASKED " + request.getter;  
          
         const reqAmountSpan = document.createElement('span'); 
         reqAmountSpan.className = "reqAmountSpan"; 
@@ -245,7 +245,6 @@ function showReq() {
         reqDiv.appendChild(reqAmountSpan); 
         reqDiv.appendChild(reqStatusSpan); 
  
-        // ACCEPT + DECLINE only for getter and only while pending
         if(
             localStorage.getItem(key) === request.getter &&
             request.status === "pending"
@@ -271,7 +270,6 @@ function showReq() {
             reqDiv.appendChild(reqAcceptBtn); 
         } 
  
-        // REMOVE for both users after accepted or declined
         if(
             request.status === "accepted" ||
             request.status === "declined"
@@ -359,7 +357,6 @@ function transferMoney(request){
         JSON.stringify(senderRequests) 
     );  
 
-    // update balance immediately
     currentBalance.textContent = localStorage.getItem(key_user_balance);
  
     showReq();  
