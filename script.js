@@ -173,184 +173,254 @@ openSendWndw.addEventListener('click', sendMoney);
 currentBalance.textContent = localStorage.getItem(key_user_balance);                                                                    //display updated balance so it stays visible after page is reloaded
 
 
-//request money
-const reqUserInput = document.querySelector('#reqUserInput');
-const reqIbanInput = document.querySelector('#reqIbanInput');
-const reqAmountInput = document.querySelector('#reqAmountInput');
-
-const userRequests = document.querySelector('#requests');
-const key_req_getter = "req_" + reqUserInput.value.toUpperCase();
-const key_req_sender = "req_" + localStorage.getItem(key);
-
-function reqMoney(){
-    if(!reqUserInput.value) return;
-
-    const key_req_getter = "req_" + reqUserInput.value.toUpperCase();
-
-    const key_req_getter_iban = localStorage.getItem("iban_" + reqUserInput.value.toUpperCase());
-    
-    if(key_req_getter_iban === null){
-        alert("No such a user");
-        return;
-    }
-
-    const request = {
-        sender: localStorage.getItem(key),
-        getter: reqUserInput.value.toUpperCase(),
-        amount: Number(reqAmountInput.value),
-        status: "pending"
-    };
-
-    const requestsSender = JSON.parse(localStorage.getItem(key_req_sender)) || [];
-    requestsSender.push(request);
-    localStorage.setItem(key_req_sender, JSON.stringify(requestsSender));
-
-    const requestsGetter = JSON.parse(localStorage.getItem(key_req_getter)) || [];
-    requestsGetter.push(request);
-    localStorage.setItem(key_req_getter, JSON.stringify(requestsGetter));
-
-    reqUserInput.value = "";
-    reqIbanInput.value = "";
-    reqAmountInput.value = "";
-
-    showReq();
-}
-
-function showReq() {
-
-    userRequests.innerHTML = "";
-
-    const key_current_user = "req_" + localStorage.getItem(key);
-
-    const requests = JSON.parse(localStorage.getItem(key_current_user)) || [];
-
-    requests.forEach(request => {
-
-        const reqDiv = document.createElement('div');
-        reqDiv.className = "reqDiv";
-
-        const reqMessage = document.createElement('p');
-        reqMessage.className = "reqMessage";
-        reqMessage.textContent = request.sender + " ASKED " + request.getter ; 
-        
-        const reqAmountSpan = document.createElement('span');
-        reqAmountSpan.className = "reqAmountSpan";
-        reqAmountSpan.textContent = request.amount + "DJCOINS";
-
-        const reqStatusSpan = document.createElement('span');
-        reqStatusSpan.className = "reqStatusSpan";
-        reqStatusSpan.textContent = request.status;
-
-        reqDiv.appendChild(reqMessage);
-        reqDiv.appendChild(reqAmountSpan);
-        reqDiv.appendChild(reqStatusSpan);
-
-        if(localStorage.getItem(key) === request.getter){
-
-            const reqDeclineBtn = document.createElement('button');
-            reqDeclineBtn.className = "reqDeclineBtn";
-            reqDeclineBtn.textContent = "Decline";
-
-            const reqAcceptBtn = document.createElement('button');
-            reqAcceptBtn.className = "reqAcceptBtn";
-            reqAcceptBtn.textContent = "Accept";
-
-            reqDeclineBtn.addEventListener('click', function(){ 
-            declineRequest(request); 
-            });
-
-            reqAcceptBtn.addEventListener('click', function(){
-                transferMoney(request);
-            });
-
-            reqDiv.appendChild(reqDeclineBtn);
-            reqDiv.appendChild(reqAcceptBtn);
-        }
-
-        userRequests.appendChild(reqDiv);
-    });
-}
-
-function transferMoney(request){ 
-
-    const key_user_balance = "balance_" + localStorage.getItem(key); 
-    const key_req_getter_balance = "balance_" + request.sender; 
-
-    const amount = Number(request.amount); 
-
-    if(amount <= 0) 
+//request money 
+const reqUserInput = document.querySelector('#reqUserInput'); 
+const reqIbanInput = document.querySelector('#reqIbanInput'); 
+const reqAmountInput = document.querySelector('#reqAmountInput'); 
+ 
+const userRequests = document.querySelector('#requests'); 
+const key_req_getter = "req_" + reqUserInput.value.toUpperCase(); 
+ 
+function reqMoney(){ 
+    if(!reqUserInput.value) return; 
+ 
+    const key_req_getter = "req_" + reqUserInput.value.toUpperCase(); 
+    const key_req_sender = "req_" + localStorage.getItem(key);
+ 
+    const key_req_getter_iban = localStorage.getItem("iban_" + reqUserInput.value.toUpperCase()); 
+     
+    if(key_req_getter_iban === null){ 
+        alert("No such a user"); 
         return; 
-
-    if(amount > Number(localStorage.getItem(key_user_balance))) 
-        return; 
-
-    const getterBalance = Number(localStorage.getItem(key_req_getter_balance)) || 0; 
-
-    localStorage.setItem(
-        key_req_getter_balance,
-        getterBalance + amount
-    ); 
-
-    localStorage.setItem(
-        key_user_balance,
-        Number(localStorage.getItem(key_user_balance)) - amount
-    ); 
-
-    request.status = "accepted"; 
-
-    const currentUserRequests = JSON.parse(
-        localStorage.getItem("req_" + localStorage.getItem(key))
-    ) || []; 
-
-    const senderRequests = JSON.parse(
-        localStorage.getItem("req_" + request.sender)
-    ) || []; 
-
-    currentUserRequests.forEach(item => { 
-        if(
-            item.sender === request.sender &&
-            item.getter === request.getter &&
-            item.amount === request.amount &&
-            item.status === "pending"
-        ){
-            item.status = "accepted"; 
-        } 
-    }); 
-
-    senderRequests.forEach(item => { 
-        if(
-            item.sender === request.sender &&
-            item.getter === request.getter &&
-            item.amount === request.amount &&
-            item.status === "pending"
-        ){
-            item.status = "accepted"; 
-        } 
-    }); 
-
-    localStorage.setItem(
-        "req_" + localStorage.getItem(key),
-        JSON.stringify(currentUserRequests)
-    ); 
-
-    localStorage.setItem(
-        "req_" + request.sender,
-        JSON.stringify(senderRequests)
-    ); 
-
+    } 
+ 
+    const request = { 
+        sender: localStorage.getItem(key), 
+        getter: reqUserInput.value.toUpperCase(), 
+        amount: Number(reqAmountInput.value), 
+        status: "pending" 
+    }; 
+ 
+    const requestsSender = JSON.parse(localStorage.getItem(key_req_sender)) || []; 
+    requestsSender.push(request); 
+    localStorage.setItem(key_req_sender, JSON.stringify(requestsSender)); 
+ 
+    const requestsGetter = JSON.parse(localStorage.getItem(key_req_getter)) || []; 
+    requestsGetter.push(request); 
+    localStorage.setItem(key_req_getter, JSON.stringify(requestsGetter)); 
+ 
+    reqUserInput.value = ""; 
+    reqIbanInput.value = ""; 
+    reqAmountInput.value = ""; 
+ 
     showReq(); 
+} 
+ 
+function showReq() { 
+ 
+    userRequests.innerHTML = ""; 
+ 
+    const key_current_user = "req_" + localStorage.getItem(key); 
+ 
+    const requests = JSON.parse(localStorage.getItem(key_current_user)) || []; 
+ 
+    requests.forEach(request => { 
+ 
+        const reqDiv = document.createElement('div'); 
+        reqDiv.className = "reqDiv"; 
+ 
+        const reqMessage = document.createElement('p'); 
+        reqMessage.className = "reqMessage"; 
+        reqMessage.textContent = request.sender + " ASKED " + request.getter;  
+         
+        const reqAmountSpan = document.createElement('span'); 
+        reqAmountSpan.className = "reqAmountSpan"; 
+        reqAmountSpan.textContent = request.amount + "DJCOINS"; 
+ 
+        const reqStatusSpan = document.createElement('span'); 
+        reqStatusSpan.className = "reqStatusSpan"; 
+        reqStatusSpan.textContent = request.status; 
+ 
+        reqDiv.appendChild(reqMessage); 
+        reqDiv.appendChild(reqAmountSpan); 
+        reqDiv.appendChild(reqStatusSpan); 
+ 
+        // ACCEPT + DECLINE only for getter and only while pending
+        if(
+            localStorage.getItem(key) === request.getter &&
+            request.status === "pending"
+        ){ 
+ 
+            const reqDeclineBtn = document.createElement('button'); 
+            reqDeclineBtn.className = "reqDeclineBtn"; 
+            reqDeclineBtn.textContent = "Decline"; 
+ 
+            const reqAcceptBtn = document.createElement('button'); 
+            reqAcceptBtn.className = "reqAcceptBtn"; 
+            reqAcceptBtn.textContent = "Accept"; 
+ 
+            reqDeclineBtn.addEventListener('click', function(){  
+                declineRequest(request);  
+            }); 
+ 
+            reqAcceptBtn.addEventListener('click', function(){ 
+                transferMoney(request); 
+            }); 
+ 
+            reqDiv.appendChild(reqDeclineBtn); 
+            reqDiv.appendChild(reqAcceptBtn); 
+        } 
+ 
+        // REMOVE for both users after accepted or declined
+        if(
+            request.status === "accepted" ||
+            request.status === "declined"
+        ){
+ 
+            const reqRemoveBtn = document.createElement('button'); 
+            reqRemoveBtn.className = "reqRemoveBtn"; 
+            reqRemoveBtn.textContent = "Remove"; 
+ 
+            reqRemoveBtn.addEventListener('click', function(){ 
+                removeRequest(request); 
+            }); 
+ 
+            reqDiv.appendChild(reqRemoveBtn); 
+        }
+ 
+        userRequests.appendChild(reqDiv); 
+    }); 
+} 
+ 
+function transferMoney(request){  
+ 
+    const key_user_balance = "balance_" + localStorage.getItem(key);  
+    const key_req_getter_balance = "balance_" + request.sender;  
+ 
+    const amount = Number(request.amount);  
+ 
+    if(amount <= 0)  
+        return;  
+ 
+    if(amount > Number(localStorage.getItem(key_user_balance)))  
+        return;  
+ 
+    const getterBalance = Number(localStorage.getItem(key_req_getter_balance)) || 0;  
+ 
+    localStorage.setItem( 
+        key_req_getter_balance, 
+        getterBalance + amount 
+    );  
+ 
+    localStorage.setItem( 
+        key_user_balance, 
+        Number(localStorage.getItem(key_user_balance)) - amount 
+    );  
+ 
+    request.status = "accepted";  
+ 
+    const currentUserRequests = JSON.parse( 
+        localStorage.getItem("req_" + localStorage.getItem(key)) 
+    ) || [];  
+ 
+    const senderRequests = JSON.parse( 
+        localStorage.getItem("req_" + request.sender) 
+    ) || [];  
+ 
+    currentUserRequests.forEach(item => {  
+        if( 
+            item.sender === request.sender && 
+            item.getter === request.getter && 
+            item.amount === request.amount && 
+            item.status === "pending" 
+        ){ 
+            item.status = "accepted";  
+        }  
+    });  
+ 
+    senderRequests.forEach(item => {  
+        if( 
+            item.sender === request.sender && 
+            item.getter === request.getter && 
+            item.amount === request.amount && 
+            item.status === "pending" 
+        ){ 
+            item.status = "accepted";  
+        }  
+    });  
+ 
+    localStorage.setItem( 
+        "req_" + localStorage.getItem(key), 
+        JSON.stringify(currentUserRequests) 
+    );  
+ 
+    localStorage.setItem( 
+        "req_" + request.sender, 
+        JSON.stringify(senderRequests) 
+    );  
+
+    // update balance immediately
+    currentBalance.textContent = localStorage.getItem(key_user_balance);
+ 
+    showReq();  
+}  
+ 
+ 
+function declineRequest(request){  
+ 
+    const currentUserRequests = JSON.parse( 
+        localStorage.getItem("req_" + localStorage.getItem(key))
+    ) || [];  
+ 
+    const senderRequests = JSON.parse( 
+        localStorage.getItem("req_" + request.sender)
+    ) || [];  
+ 
+    currentUserRequests.forEach(item => { 
+        if( 
+            item.sender === request.sender && 
+            item.getter === request.getter && 
+            item.amount === request.amount && 
+            item.status === "pending"
+        ){ 
+            item.status = "declined"; 
+        } 
+    }); 
+ 
+    senderRequests.forEach(item => { 
+        if( 
+            item.sender === request.sender && 
+            item.getter === request.getter && 
+            item.amount === request.amount && 
+            item.status === "pending"
+        ){ 
+            item.status = "declined"; 
+        } 
+    }); 
+ 
+    localStorage.setItem( 
+        "req_" + localStorage.getItem(key), 
+        JSON.stringify(currentUserRequests) 
+    ); 
+ 
+    localStorage.setItem( 
+        "req_" + request.sender, 
+        JSON.stringify(senderRequests) 
+    ); 
+ 
+    showReq();  
 } 
 
 
-function declineRequest(request){ 
+function removeRequest(request){ 
 
     const currentUserRequests = JSON.parse(
         localStorage.getItem("req_" + localStorage.getItem(key))
-    ) || []; 
+    ) || [];
 
     const senderRequests = JSON.parse(
         localStorage.getItem("req_" + request.sender)
-    ) || []; 
+    ) || [];
 
     const newCurrentUserRequests = currentUserRequests.filter(item => {
         return !(
@@ -358,7 +428,7 @@ function declineRequest(request){
             item.getter === request.getter &&
             item.amount === request.amount
         );
-    }); 
+    });
 
     const newSenderRequests = senderRequests.filter(item => {
         return !(
@@ -366,26 +436,29 @@ function declineRequest(request){
             item.getter === request.getter &&
             item.amount === request.amount
         );
-    }); 
+    });
 
     localStorage.setItem(
         "req_" + localStorage.getItem(key),
         JSON.stringify(newCurrentUserRequests)
-    ); 
+    );
 
     localStorage.setItem(
         "req_" + request.sender,
         JSON.stringify(newSenderRequests)
-    ); 
+    );
 
-    showReq(); 
+    showReq();
 }
-openRequestWndw.addEventListener('click', reqMoney);
 
-showReq();
 
-saveUserBtn.addEventListener('click', showReq);
-
+openRequestWndw.addEventListener('click', reqMoney); 
+ 
+showReq(); 
+ 
+saveUserBtn.addEventListener('click', showReq); 
+ 
+currentBalance.textContent = localStorage.getItem(key_user_balance);Storage.getItem(key_user_balance);
 
 //....
 
